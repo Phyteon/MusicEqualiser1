@@ -7,6 +7,7 @@ protected:
 	RenderWindow window_instance;
 public:
 	void MakeAppearance();
+	void BeginListeningForEvents();
 	Wnd();
 	~Wnd();
 };
