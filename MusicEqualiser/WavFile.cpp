@@ -53,17 +53,42 @@ CArray fft(std::vector<double> &data)
 	return x;
 }
 
-std::vector<sf::Int16> WavFile::FFT(sf::Int16 NoOfSmplInChunk)
+std::vector<double> WavFile::FFT(sf::Int16 NoOfSmplInChunk)
 {
-	if (d_samples.size()%NoOfSmplInChunk != 0)
+	if (d_samples.size()%NoOfSmplInChunk != 0) // Zero-lining to decrease computation time and increase resolution
 	{
 		while (d_samples.size() % NoOfSmplInChunk != 0)
 		{
 			d_samples.push_back(0.0);
 		}
 	}
-	// #TODO
-	return std::vector<sf::Int16>();
+	size_t smpl_arr_size = d_samples.size();
+
+	CArray result;
+	result.resize(smpl_arr_size);
+	size_t index = 0;
+	for (size_t j = 0; j < smpl_arr_size / NoOfSmplInChunk; j++)
+	{
+		std::vector<double> temp{};
+		for (size_t f = j * NoOfSmplInChunk; f < (j + 1)*NoOfSmplInChunk; f++)
+		{
+			temp.push_back(d_samples[f]);
+		}
+		CArray temp_result(fft(temp)); // FFT calculation of one chunk
+		for (size_t k = j * NoOfSmplInChunk; k < (j + 1)*NoOfSmplInChunk; k++)
+		{
+			result[k] = temp[index]; // Assigning calculation of one chunk to the result CArray
+			index++;
+		}
+		index = 0;
+	}
+	std::vector<double> _CArray_cast{};
+	_CArray_cast.resize(smpl_arr_size);
+	for (size_t d = 0; d < smpl_arr_size; d++)
+	{
+		_CArray_cast[d] = abs(result[d]);
+	}
+	return _CArray_cast;
 }
 
 void WavFile::LoadWaveFile(std::string path)

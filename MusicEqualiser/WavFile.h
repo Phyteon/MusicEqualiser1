@@ -15,7 +15,7 @@ protected:
 	std::vector<double> d_samples;
 	sf::SoundBuffer buffer;
 	sf::Music music;
-	std::vector<sf::Int16> FFT(sf::Int16);
+	std::vector<double> FFT(sf::Int16);
 public:
 	void LoadWaveFile(std::string);
 	void ChangeAmplitude(sf::Int16);
