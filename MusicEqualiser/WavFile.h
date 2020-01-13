@@ -25,6 +25,7 @@ public:
 	void LoadWaveFile(std::string);
 	void ChangeAmplitude(sf::Int16);
 	void PitchUp();
+	void TestFunction();
 	void SaveWaveFile(std::string);
 	WavFile();
 	~WavFile();

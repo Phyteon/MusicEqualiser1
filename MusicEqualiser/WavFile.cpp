@@ -144,11 +144,13 @@ void WavFile::LoadWaveFile(std::string path)
 {
 	if (!this->buffer.loadFromFile(path))
 	{
-		// Error handle
+		std::cout << "Unable to open file\n";
+		throw std::exception();
 	}
-	this->c_samples.resize(this->buffer.getSampleCount());
+	size_t dim = (size_t)this->buffer.getSampleCount();
+	this->c_samples.resize(dim);
 	const sf::Int16 *temp = this->buffer.getSamples();
-	for (size_t i = 0; i < this->buffer.getSampleCount(); i++)
+	for (size_t i = 0; i < dim; i++)
 	{
 		this->samples.push_back(temp[i]);
 		this->d_samples.push_back((double)temp[i]);
@@ -173,6 +175,16 @@ void WavFile::ChangeAmplitude(sf::Int16 coeff)
 void WavFile::PitchUp()
 {
 
+}
+
+void WavFile::TestFunction()
+{
+	CArray fourier_domain;
+	CArray time_domain;
+	fourier_domain = this->FFT(1024);
+	time_domain = this->IFFT(1024, fourier_domain);
+	std::vector<sf::Int16> new_sample = this->CastOnInt16(time_domain);
+	this->buffer.loadFromSamples(&new_sample[0], new_sample.size(), 2, 44100);
 }
 
 void WavFile::SaveWaveFile(std::string path)

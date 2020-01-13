@@ -1,5 +1,6 @@
 #pragma once
 #include "SFML/Graphics.hpp"
+#include "WavFile.h"
 using namespace sf;
 class Wnd
 {

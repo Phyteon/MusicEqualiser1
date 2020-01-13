@@ -29,7 +29,7 @@ void Wnd::BeginListeningForEvents()
 			{
 			case Event::Closed:
 				window_instance.close();
-			case Event::TextEntered:
+			// case Event::TextEntered:
 				
 
 				break;
