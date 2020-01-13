@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "WavFile.h"
 
-using namespace std::complex_literals;
-
 CArray fft(CArray &x)
 {
 	// DFT
@@ -79,12 +77,12 @@ CArray WavFile::FFT(sf::Int16 NoOfSmplInChunk)
 	size_t smpl_arr_size = c_samples.size();
 
 	CArray result;
+	CArray temp;
+	temp.resize(NoOfSmplInChunk);
 	result.resize(smpl_arr_size);
 	size_t index = 0;
 	for (size_t j = 0; j < smpl_arr_size / NoOfSmplInChunk; j++)
-	{
-		CArray temp{};
-		temp.resize(NoOfSmplInChunk);
+	{	
 		for (size_t f = j * NoOfSmplInChunk; f < (j + 1)*NoOfSmplInChunk; f++)
 		{
 			temp[index] = this->c_samples[f];
@@ -104,13 +102,13 @@ CArray WavFile::FFT(sf::Int16 NoOfSmplInChunk)
 
 CArray WavFile::IFFT(sf::Int16 NoOfSmplInChunk, CArray& fourier) // Only to be performed on product of FFT function
 {
+	CArray result;
+	CArray temp;
+	temp.resize(NoOfSmplInChunk);
+	result.resize(fourier.size());
+	size_t index = 0;
 	for (size_t j = 0; j < fourier.size() / NoOfSmplInChunk; j++)
 	{
-		CArray temp;
-		CArray result;
-		temp.resize(NoOfSmplInChunk);
-		result.resize(fourier.size());
-		size_t index = 0;
 		for (size_t f = j * NoOfSmplInChunk; f < (j + 1)*NoOfSmplInChunk; f++)
 		{
 			temp[index] = fourier[f];
@@ -123,8 +121,9 @@ CArray WavFile::IFFT(sf::Int16 NoOfSmplInChunk, CArray& fourier) // Only to be p
 			result[k] = temp[index];
 			index++;
 		}
+		index = 0;
 	}
-	return fourier;
+	return result;
 }
 
 std::vector<sf::Int16> WavFile::CastOnInt16(CArray & _CArray)
@@ -136,7 +135,7 @@ std::vector<sf::Int16> WavFile::CastOnInt16(CArray & _CArray)
 		temp = real(_CArray[i]); // Is such approximation good?
 		if (temp > (pow(2, 15) - 1) || temp < -pow(2, 15))
 			temp = (abs(temp) / temp) * (pow(2, 15) - 1);
-		cast.push_back(sf::Int16(temp));
+		cast.push_back((sf::Int16)temp); // Casting directly onto Int16 or first onto int and then Int16?
 	}
 	return cast;
 }
