@@ -67,13 +67,14 @@ CArray ifft(CArray& x)
 
 CArray WavFile::FFT(sf::Int16 NoOfSmplInChunk)
 {
-	if (c_samples.size()%NoOfSmplInChunk != 0) // Zero-padding to decrease computation time and increase resolution
+	if (this->c_samples.size()%NoOfSmplInChunk != 0) // Zero-padding to decrease computation time and increase resolution
 	{
-		size_t append = c_samples.size() % NoOfSmplInChunk;
-		size_t previous_size = c_samples.size();
-		c_samples.resize(previous_size + append);
-		for (size_t k = previous_size; k < c_samples.size(); k++)
-			c_samples[k] = 0.0 + 0.0i;
+		size_t append = this->c_samples.size() % NoOfSmplInChunk;
+		size_t previous_size = this->c_samples.size();
+		CArray auxilary(this->c_samples); // Saving content of c_samples beacuse resize operation assigns zeros everywhere
+		this->c_samples.resize(previous_size + append);
+		for (size_t k = 0; k < previous_size; k++)
+			this->c_samples[k] = auxilary[k];
 	}
 	size_t smpl_arr_size = c_samples.size();
 
@@ -86,7 +87,7 @@ CArray WavFile::FFT(sf::Int16 NoOfSmplInChunk)
 		temp.resize(NoOfSmplInChunk);
 		for (size_t f = j * NoOfSmplInChunk; f < (j + 1)*NoOfSmplInChunk; f++)
 		{
-			temp[index] = c_samples[f];
+			temp[index] = this->c_samples[f];
 			index++;
 		}
 		index = 0;
@@ -106,11 +107,21 @@ CArray WavFile::IFFT(sf::Int16 NoOfSmplInChunk, CArray& fourier) // Only to be p
 	for (size_t j = 0; j < fourier.size() / NoOfSmplInChunk; j++)
 	{
 		CArray temp;
+		CArray result;
 		temp.resize(NoOfSmplInChunk);
+		result.resize(fourier.size());
 		size_t index = 0;
 		for (size_t f = j * NoOfSmplInChunk; f < (j + 1)*NoOfSmplInChunk; f++)
 		{
-			// Code here
+			temp[index] = fourier[f];
+			index++;
+		}
+		index = 0;
+		ifft(temp); // Inverse FFT calculation of a chunk
+		for (size_t k = j * NoOfSmplInChunk; k < (j + 1)*NoOfSmplInChunk; k++)
+		{
+			result[k] = temp[index];
+			index++;
 		}
 	}
 	return fourier;
