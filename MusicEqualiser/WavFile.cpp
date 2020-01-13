@@ -1,15 +1,10 @@
 #include "stdafx.h"
 #include "WavFile.h"
 
+using namespace std::complex_literals;
 
-CArray fft(std::vector<double> &data)
+CArray fft(CArray &x)
 {
-	CArray x;
-	x.resize(data.size());
-	for (size_t i = 0; i < data.size(); i++)
-	{
-		x[i]=(std::complex<double>)data[i];
-	}
 	// DFT
 	unsigned int N = x.size(), k = N, n;
 	double thetaT = 3.14159265358979323846264338328L / N;
@@ -53,28 +48,49 @@ CArray fft(std::vector<double> &data)
 	return x;
 }
 
+CArray ifft(CArray& x)
+{
+	// conjugate the complex numbers
+	x = x.apply(std::conj);
+
+	// forward fft
+	fft(x);
+
+	// conjugate the complex numbers again
+	x = x.apply(std::conj);
+
+	// scale the numbers
+	x /= x.size();
+
+	return x;
+}
+
 CArray WavFile::FFT(sf::Int16 NoOfSmplInChunk)
 {
-	if (d_samples.size()%NoOfSmplInChunk != 0) // Zero-padding to decrease computation time and increase resolution
+	if (c_samples.size()%NoOfSmplInChunk != 0) // Zero-padding to decrease computation time and increase resolution
 	{
-		while (d_samples.size() % NoOfSmplInChunk != 0)
-		{
-			d_samples.push_back(0.0);
-		}
+		size_t append = c_samples.size() % NoOfSmplInChunk;
+		size_t previous_size = c_samples.size();
+		c_samples.resize(previous_size + append);
+		for (size_t k = previous_size; k < c_samples.size(); k++)
+			c_samples[k] = 0.0 + 0.0i;
 	}
-	size_t smpl_arr_size = d_samples.size();
+	size_t smpl_arr_size = c_samples.size();
 
 	CArray result;
 	result.resize(smpl_arr_size);
 	size_t index = 0;
 	for (size_t j = 0; j < smpl_arr_size / NoOfSmplInChunk; j++)
 	{
-		std::vector<double> temp{};
+		CArray temp{};
+		temp.resize(NoOfSmplInChunk);
 		for (size_t f = j * NoOfSmplInChunk; f < (j + 1)*NoOfSmplInChunk; f++)
 		{
-			temp.push_back(d_samples[f]);
+			temp[index] = c_samples[f];
+			index++;
 		}
-		CArray temp_result(fft(temp)); // FFT calculation of one chunk
+		index = 0;
+		fft(temp); // FFT calculation of one chunk
 		for (size_t k = j * NoOfSmplInChunk; k < (j + 1)*NoOfSmplInChunk; k++)
 		{
 			result[k] = temp[index]; // Assigning calculation of one chunk to the result CArray
@@ -83,6 +99,21 @@ CArray WavFile::FFT(sf::Int16 NoOfSmplInChunk)
 		index = 0;
 	}
 	return result;
+}
+
+CArray WavFile::IFFT(sf::Int16 NoOfSmplInChunk, CArray& fourier) // Only to be performed on product of FFT function
+{
+	for (size_t j = 0; j < fourier.size() / NoOfSmplInChunk; j++)
+	{
+		CArray temp;
+		temp.resize(NoOfSmplInChunk);
+		size_t index = 0;
+		for (size_t f = j * NoOfSmplInChunk; f < (j + 1)*NoOfSmplInChunk; f++)
+		{
+			// Code here
+		}
+	}
+	return fourier;
 }
 
 std::vector<sf::Int16> WavFile::CastOnInt16(CArray & _CArray)
@@ -105,11 +136,13 @@ void WavFile::LoadWaveFile(std::string path)
 	{
 		// Error handle
 	}
+	this->c_samples.resize(this->buffer.getSampleCount());
 	const sf::Int16 *temp = this->buffer.getSamples();
 	for (size_t i = 0; i < this->buffer.getSampleCount(); i++)
 	{
 		this->samples.push_back(temp[i]);
 		this->d_samples.push_back((double)temp[i]);
+		this->c_samples[i] = (std::complex<double>)(double)temp[i]; // Casting twice, prone to errors
 	}
 
 }
