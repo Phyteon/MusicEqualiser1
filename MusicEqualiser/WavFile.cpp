@@ -53,9 +53,9 @@ CArray fft(std::vector<double> &data)
 	return x;
 }
 
-std::vector<double> WavFile::FFT(sf::Int16 NoOfSmplInChunk)
+CArray WavFile::FFT(sf::Int16 NoOfSmplInChunk)
 {
-	if (d_samples.size()%NoOfSmplInChunk != 0) // Zero-lining to decrease computation time and increase resolution
+	if (d_samples.size()%NoOfSmplInChunk != 0) // Zero-padding to decrease computation time and increase resolution
 	{
 		while (d_samples.size() % NoOfSmplInChunk != 0)
 		{
@@ -82,13 +82,21 @@ std::vector<double> WavFile::FFT(sf::Int16 NoOfSmplInChunk)
 		}
 		index = 0;
 	}
-	std::vector<double> _CArray_cast{};
-	_CArray_cast.resize(smpl_arr_size);
-	for (size_t d = 0; d < smpl_arr_size; d++)
+	return result;
+}
+
+std::vector<sf::Int16> WavFile::CastOnInt16(CArray & _CArray)
+{
+	std::vector<sf::Int16> cast;
+	double temp;
+	for (size_t i = 0; i < _CArray.size(); i++)
 	{
-		_CArray_cast[d] = abs(result[d]);
+		temp = real(_CArray[i]); // Is such approximation good?
+		if (temp > (pow(2, 15) - 1) || temp < -pow(2, 15))
+			temp = (abs(temp) / temp) * (pow(2, 15) - 1);
+		cast.push_back(sf::Int16(temp));
 	}
-	return _CArray_cast;
+	return cast;
 }
 
 void WavFile::LoadWaveFile(std::string path)

@@ -11,11 +11,12 @@ typedef std::valarray<Complex> CArray;
 class WavFile
 {
 protected:
-	std::vector<sf::Int16> samples;
-	std::vector<double> d_samples;
+	std::vector<sf::Int16> samples; // Filled with LoadWaveFile function
+	std::vector<double> d_samples; // Filled with LoadWaveFile function
 	sf::SoundBuffer buffer;
 	sf::Music music;
-	std::vector<double> FFT(sf::Int16);
+	CArray FFT(sf::Int16); // Does computations on d_samples, may alter d_samples length (zero-padding)
+	std::vector<sf::Int16> CastOnInt16(CArray&);
 public:
 	void LoadWaveFile(std::string);
 	void ChangeAmplitude(sf::Int16);
