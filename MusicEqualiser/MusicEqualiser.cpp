@@ -1,7 +1,7 @@
 
 #include "stdafx.h"
 #include "MusicEqualiser.h"
-#include "Wnd.h"
+#include "WavFile.h"
 #include <iostream>
 int main()
 {
