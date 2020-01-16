@@ -67,10 +67,13 @@ CArray WavFile::FFT(sf::Int16 NoOfSmplInChunk)
 {
 	if (this->c_samples.size()%NoOfSmplInChunk != 0) // Zero-padding to decrease computation time and increase resolution
 	{
+		// Error in zero padding
 		size_t append = this->c_samples.size() % NoOfSmplInChunk;
 		size_t previous_size = this->c_samples.size();
-		CArray auxilary(this->c_samples); // Saving content of c_samples beacuse resize operation assigns zeros everywhere
-		this->c_samples.resize(previous_size + append);
+		CArray auxilary(this->c_samples);
+		// Saving content of c_samples beacuse resize operation assigns zeros everywhere
+		//Unhandled exception at 0x763D19B2 in MusicEqualiser.exe: Microsoft C++ exception: std::bad_alloc at memory location 0x00F6F17C. occurred
+		this->c_samples.resize(previous_size + NoOfSmplInChunk - append);
 		for (size_t k = 0; k < previous_size; k++)
 			this->c_samples[k] = auxilary[k];
 	}
@@ -81,22 +84,31 @@ CArray WavFile::FFT(sf::Int16 NoOfSmplInChunk)
 	temp.resize(NoOfSmplInChunk);
 	result.resize(smpl_arr_size);
 	size_t index = 0;
-	for (size_t j = 0; j < smpl_arr_size / NoOfSmplInChunk; j++)
-	{	
-		for (size_t f = j * NoOfSmplInChunk; f < (j + 1)*NoOfSmplInChunk; f++)
+	try
+	{
+		for (size_t j = 0; j < smpl_arr_size / NoOfSmplInChunk; j++)
 		{
-			temp[index] = this->c_samples[f];
-			index++;
+			for (size_t f = j * NoOfSmplInChunk; f < (j + 1)*NoOfSmplInChunk; f++)
+			{
+				temp[index] = this->c_samples[f];
+				index++;
+			}
+			index = 0;
+			fft(temp); // FFT calculation of one chunk
+			for (size_t k = j * NoOfSmplInChunk; k < (j + 1)*NoOfSmplInChunk; k++)
+			{
+				result[k] = temp[index]; // Assigning calculation of one chunk to the result CArray
+				index++;
+			}
+			index = 0;
 		}
-		index = 0;
-		fft(temp); // FFT calculation of one chunk
-		for (size_t k = j * NoOfSmplInChunk; k < (j + 1)*NoOfSmplInChunk; k++)
-		{
-			result[k] = temp[index]; // Assigning calculation of one chunk to the result CArray
-			index++;
-		}
-		index = 0;
 	}
+	catch (std::bad_alloc)
+	{
+		std::cout << "Too much memory required\n";
+		throw std::exception();
+	}
+	
 	return result;
 }
 
@@ -150,11 +162,26 @@ void WavFile::LoadWaveFile(std::string path)
 	size_t dim = (size_t)this->buffer.getSampleCount();
 	this->c_samples.resize(dim);
 	const sf::Int16 *temp = this->buffer.getSamples();
-	for (size_t i = 0; i < dim; i++)
+	try
 	{
-		this->samples.push_back(temp[i]);
-		this->d_samples.push_back((double)temp[i]);
-		this->c_samples[i] = (std::complex<double>)(double)temp[i]; // Casting twice, prone to errors
+		for (size_t i = 0; i < dim; i++)
+		{
+			this->samples.push_back(temp[i]);
+			this->d_samples.push_back((double)temp[i]);
+			//this->c_samples[i] = (std::complex<double>)(double)temp[i]; // Casting twice, prone to errors
+			// Unhandled exception at 0x763D19B2 in MusicEqualiser.exe: Microsoft C++ exception: std::bad_alloc at memory location 0x00AFED6C. occurred
+		}
+		for (size_t i = 0; i < dim; i++)
+		{
+			this->c_samples[i] = (std::complex<double>)d_samples[i];
+			//this->c_samples[i] = (std::complex<double>)(double)temp[i]; // Casting twice, prone to errors
+			// Unhandled exception at 0x763D19B2 in MusicEqualiser.exe: Microsoft C++ exception: std::bad_alloc at memory location 0x00AFED6C. occurred
+		}
+	}
+	catch (std::bad_alloc)
+	{
+		std::cout << "File already exists or is opened: std::bad_alloc\n";
+		throw std::exception();
 	}
 
 }
