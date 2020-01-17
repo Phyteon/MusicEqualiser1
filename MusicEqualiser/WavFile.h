@@ -7,6 +7,7 @@
 #include <valarray>
 #include <iomanip>
 #include <cmath>
+#include <cstdlib>
 typedef std::complex<double> Complex;
 typedef std::valarray<Complex> CArray;
 
@@ -24,7 +25,8 @@ protected:
 public:
 	void LoadWaveFile(std::string);
 	void ChangeAmplitude(sf::Int16);
-	void PitchUp();
+	void PitchUp(sf::Int16, sf::Int16);
+	void RandomWeightMult(sf::Int16);
 	void TestFunction();
 	void SaveWaveFile(std::string);
 	WavFile();

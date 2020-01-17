@@ -13,7 +13,7 @@ int main()
 	test_file.LoadWaveFile(path1);
 	// std::cout << "Please specify the path where you want to save the file:\n";
 	// getline(std::cin, path);
-	test_file.TestFunction();
+	test_file.PitchUp(1024, 200);
 	test_file.SaveWaveFile(path2);
 
 	return 0;
