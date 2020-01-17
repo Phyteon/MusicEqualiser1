@@ -202,7 +202,7 @@ void WavFile::ChangeAmplitude(sf::Int16 coeff)
 
 void WavFile::PitchUp(sf::Int16 NoOfSmplInChunk, sf::Int16 FreqShift)
 {
-	size_t fourier_shift = std::floor(FreqShift / (int)(44100/NoOfSmplInChunk)); // Calculating how many positions to shift the frequency domain
+	size_t fourier_shift = (size_t)std::floor(FreqShift / (44100/NoOfSmplInChunk)); // Calculating how many positions to shift the frequency domain
 	CArray fourier_domain = this->FFT(NoOfSmplInChunk);
 	CArray temp;
 	CArray shift;
@@ -217,7 +217,7 @@ void WavFile::PitchUp(sf::Int16 NoOfSmplInChunk, sf::Int16 FreqShift)
 			index++;
 		}
 		index = 0;
-		for (size_t k = fourier_shift; k < NoOfSmplInChunk; k++)
+		for (size_t k = fourier_shift; k < (size_t)NoOfSmplInChunk; k++)
 		{
 			shift[k] = temp[index];
 			index++;
@@ -233,7 +233,7 @@ void WavFile::PitchUp(sf::Int16 NoOfSmplInChunk, sf::Int16 FreqShift)
 	this->buffer.loadFromSamples(&new_sample[0], new_sample.size(), 2, 44100);
 }
 
-void WavFile::RandomWeightMult(sf::Int16)
+void WavFile::RandomWeightMult()
 {
 	// Divide function by a random weight function
 	srand((unsigned)time(0));
