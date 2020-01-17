@@ -72,7 +72,8 @@ CArray WavFile::FFT(sf::Int16 NoOfSmplInChunk)
 		size_t previous_size = this->c_samples.size();
 		CArray auxilary(this->c_samples);
 		// Saving content of c_samples beacuse resize operation assigns zeros everywhere
-		//Unhandled exception at 0x763D19B2 in MusicEqualiser.exe: Microsoft C++ exception: std::bad_alloc at memory location 0x00F6F17C. occurred
+		// Unhandled exception in MusicEqualiser.exe: Microsoft C++ exception: std::bad_alloc - occurs when operating on large files
+		// Code needs memory optimisation
 		this->c_samples.resize(previous_size + NoOfSmplInChunk - append);
 		for (size_t k = 0; k < previous_size; k++)
 			this->c_samples[k] = auxilary[k];

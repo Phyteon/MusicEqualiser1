@@ -6,7 +6,7 @@
 int main()
 {
 	WavFile test_file;
-	std::string path1 = "C:\\Users\\pawel\\Desktop\\Lament.wav";
+	std::string path1 = "C:\\Users\\pawel\\Desktop\\The day after.wav";
 	std::string path2 = "C:\\Users\\pawel\\Desktop\\test.wav";
 	// std::cout << "Please specify the path of the target file:\n";
 	// getline(std::cin, path);
