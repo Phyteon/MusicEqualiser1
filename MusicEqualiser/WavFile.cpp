@@ -226,9 +226,12 @@ void WavFile::PitchUp(sf::Int16 NoOfSmplInChunk, sf::Int16 FreqShift)
 		for (size_t l = j * NoOfSmplInChunk; l < (j + 1)*NoOfSmplInChunk; l++)
 		{
 			fourier_domain[l] = shift[index];
+			index++;
 		}
+		index = 0;
 	}
-	CArray time_domain = this->IFFT(NoOfSmplInChunk, fourier_domain);
+	CArray time_domain;
+	time_domain = this->IFFT(NoOfSmplInChunk, fourier_domain);
 	std::vector<sf::Int16> new_sample = this->CastOnInt16(time_domain);
 	this->buffer.loadFromSamples(&new_sample[0], new_sample.size(), 2, 44100);
 }
