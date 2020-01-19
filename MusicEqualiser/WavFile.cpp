@@ -217,9 +217,15 @@ void WavFile::PitchUp(sf::Int16 NoOfSmplInChunk, sf::Int16 FreqShift)
 			index++;
 		}
 		index = 0;
-		for (size_t k = fourier_shift; k < (size_t)NoOfSmplInChunk; k++)
+		for (size_t k = fourier_shift; k < (size_t)NoOfSmplInChunk/2; k++)
 		{
 			shift[k] = temp[index];
+			index++;
+		}
+		index = NoOfSmplInChunk/2;
+		for (size_t k = (size_t)NoOfSmplInChunk/2 ; k < (size_t)NoOfSmplInChunk - fourier_shift; k++)
+		{
+			shift[k] = temp[index + fourier_shift];
 			index++;
 		}
 		index = 0;
