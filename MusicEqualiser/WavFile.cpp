@@ -242,6 +242,48 @@ void WavFile::PitchUp(sf::Int16 NoOfSmplInChunk, sf::Int16 FreqShift)
 	this->buffer.loadFromSamples(&new_sample[0], new_sample.size(), 2, 44100);
 }
 
+void WavFile::PitchDown(sf::Int16 NoOfSmplInChunk, sf::Int16 FreqShift)
+{
+	size_t fourier_shift = (size_t)std::floor(FreqShift / (44100 / NoOfSmplInChunk)); // Calculating how many positions to shift the frequency domain
+	CArray fourier_domain = this->FFT(NoOfSmplInChunk);
+	CArray temp;
+	CArray shift;
+	shift.resize(NoOfSmplInChunk);
+	temp.resize(NoOfSmplInChunk);
+	size_t index = 0;
+	for (size_t j = 0; j < fourier_domain.size() / NoOfSmplInChunk; j++)
+	{
+		for (size_t f = j * NoOfSmplInChunk; f < (j + 1)*NoOfSmplInChunk; f++)
+		{
+			temp[index] = fourier_domain[f];
+			index++;
+		}
+		index = 0;
+		for (size_t k = fourier_shift; k < (size_t)NoOfSmplInChunk / 2; k++)
+		{
+			shift[index] = temp[k];
+			index++;
+		}
+		index = NoOfSmplInChunk / 2;
+		for (size_t k = (size_t)NoOfSmplInChunk / 2; k < (size_t)NoOfSmplInChunk - fourier_shift; k++)
+		{
+			shift[index + fourier_shift] = temp[k];
+			index++;
+		}
+		index = 0;
+		for (size_t l = j * NoOfSmplInChunk; l < (j + 1)*NoOfSmplInChunk; l++)
+		{
+			fourier_domain[l] = shift[index];
+			index++;
+		}
+		index = 0;
+	}
+	CArray time_domain;
+	time_domain = this->IFFT(NoOfSmplInChunk, fourier_domain);
+	std::vector<sf::Int16> new_sample = this->CastOnInt16(time_domain);
+	this->buffer.loadFromSamples(&new_sample[0], new_sample.size(), 2, 44100);
+}
+
 void WavFile::RandomWeightMult()
 {
 	// Divide function by a random weight function

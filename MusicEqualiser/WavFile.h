@@ -26,6 +26,7 @@ public:
 	void LoadWaveFile(std::string);
 	void ChangeAmplitude(sf::Int16);
 	void PitchUp(sf::Int16, sf::Int16);
+	void PitchDown(sf::Int16, sf::Int16);
 	void RandomWeightMult();
 	void TestFunction();
 	void SaveWaveFile(std::string);
