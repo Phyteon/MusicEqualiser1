@@ -31,6 +31,9 @@
     <ClCompile Include="GUIMusicEqualiser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\MusicEqualiser\MusicEqualiser\WavFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="GUIMusicEqualiser.h">
@@ -46,5 +49,10 @@
     <QtRcc Include="GUIMusicEqualiser.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\MusicEqualiser\MusicEqualiser\WavFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
