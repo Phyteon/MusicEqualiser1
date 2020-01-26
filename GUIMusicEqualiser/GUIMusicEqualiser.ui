@@ -14,7 +14,7 @@
    <string>GUIMusicEqualiser</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="targetText">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -50,7 +50,7 @@
      <string>Save path:</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_2">
+   <widget class="QLineEdit" name="saveText">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -60,7 +60,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QSlider" name="horizontalSlider">
+   <widget class="QSlider" name="pitch_upSlider">
     <property name="geometry">
      <rect>
       <x>120</x>
@@ -76,7 +76,7 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="apply_upButton">
     <property name="geometry">
      <rect>
       <x>290</x>
@@ -89,7 +89,7 @@
      <string>Apply</string>
     </property>
    </widget>
-   <widget class="QSlider" name="horizontalSlider_2">
+   <widget class="QSlider" name="pitch_downSlider">
     <property name="geometry">
      <rect>
       <x>120</x>
@@ -105,7 +105,7 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="apply_downButton">
     <property name="geometry">
      <rect>
       <x>290</x>
@@ -118,7 +118,7 @@
      <string>Apply</string>
     </property>
    </widget>
-   <widget class="QSlider" name="horizontalSlider_3">
+   <widget class="QSlider" name="caSlider">
     <property name="geometry">
      <rect>
       <x>120</x>
@@ -134,7 +134,7 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="apply_caButton">
     <property name="geometry">
      <rect>
       <x>290</x>
@@ -186,7 +186,7 @@
      <string>Change amplitude</string>
     </property>
    </widget>
-   <widget class="QLCDNumber" name="lcdNumber">
+   <widget class="QLCDNumber" name="up_hzLCD">
     <property name="geometry">
      <rect>
       <x>380</x>
@@ -196,7 +196,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLCDNumber" name="lcdNumber_2">
+   <widget class="QLCDNumber" name="down_hzLCD">
     <property name="geometry">
      <rect>
       <x>380</x>
@@ -206,7 +206,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLCDNumber" name="lcdNumber_3">
+   <widget class="QLCDNumber" name="caLCD">
     <property name="geometry">
      <rect>
       <x>380</x>
@@ -229,7 +229,7 @@
      <number>0</number>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="loadButton">
     <property name="geometry">
      <rect>
       <x>320</x>
@@ -242,7 +242,7 @@
      <string>Load</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_5">
+   <widget class="QPushButton" name="saveButton">
     <property name="geometry">
      <rect>
       <x>320</x>
