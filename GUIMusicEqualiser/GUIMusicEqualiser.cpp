@@ -5,3 +5,5 @@ GUIMusicEqualiser::GUIMusicEqualiser(QWidget *parent)
 {
 	ui.setupUi(this);
 }
+
+

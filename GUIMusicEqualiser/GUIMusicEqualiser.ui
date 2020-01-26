@@ -280,5 +280,54 @@
  <resources>
   <include location="GUIMusicEqualiser.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>pitch_upSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>up_hzLCD</receiver>
+   <slot>display(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>235</x>
+     <y>142</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>408</x>
+     <y>145</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pitch_downSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>down_hzLCD</receiver>
+   <slot>display(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>254</x>
+     <y>175</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>404</x>
+     <y>178</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>caSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>caLCD</receiver>
+   <slot>display(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>201</x>
+     <y>207</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>398</x>
+     <y>207</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
