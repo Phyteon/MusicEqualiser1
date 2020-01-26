@@ -312,7 +312,7 @@ void WavFile::SaveWaveFile(std::string path)
 	}
 }
 
-void WavFile::ShowProgress(size_t base, size_t current)
+void WavFile::SendProgress(size_t base, size_t current)
 {
 	emit ProgressChanged((current / base) * 100);
 }

@@ -11,11 +11,8 @@ class GUIMusicEqualiser : public QMainWindow
 
 public:
 	GUIMusicEqualiser(QWidget *parent = Q_NULLPTR);
-	
-private:
 	WavFile music_file;
-	//QObject::connect(&music_file, &WavFile::ProgressChanged,
-		//this->ui, &GUIMusicEqualiser::ShowProgress);
+private:
 	Ui::GUIMusicEqualiserClass ui;
 public slots:
 
@@ -24,6 +21,6 @@ public slots:
 	void on_apply_upButton_clicked();
 	void on_loadButton_clicked();
 	void on_saveButton_clicked();
-	//void ShowProgress();
+	void ShowProgress(size_t);
 	
 };

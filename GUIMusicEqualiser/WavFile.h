@@ -36,7 +36,7 @@ public:
 	WavFile();
 	~WavFile();
 public slots:
-	void ShowProgress(size_t, size_t);
+	void SendProgress(size_t, size_t);
 signals:
 	void ProgressChanged(size_t);
 };
