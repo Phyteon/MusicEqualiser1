@@ -39,6 +39,9 @@
     <QtMoc Include="GUIMusicEqualiser.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="WavFile.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="GUIMusicEqualiser.ui">
@@ -49,10 +52,5 @@
     <QtRcc Include="GUIMusicEqualiser.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="WavFile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

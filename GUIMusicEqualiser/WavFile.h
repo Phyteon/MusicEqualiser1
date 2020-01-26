@@ -8,12 +8,14 @@
 #include <iomanip>
 #include <cmath>
 #include <cstdlib>
+#include<QObject>
 typedef std::complex<double> Complex;
 typedef std::valarray<Complex> CArray;
 
 
-class WavFile
+class WavFile : public QObject
 {
+	Q_OBJECT
 protected:
 	std::vector<sf::Int16> samples; // Filled with LoadWaveFile function
 	std::vector<double> d_samples; // Filled with LoadWaveFile function
@@ -33,5 +35,9 @@ public:
 	void SaveWaveFile(std::string);
 	WavFile();
 	~WavFile();
+public slots:
+	void ShowProgress(size_t, size_t);
+signals:
+	void ProgressChanged(size_t);
 };
 

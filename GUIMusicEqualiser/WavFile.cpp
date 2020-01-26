@@ -169,19 +169,15 @@ void WavFile::LoadWaveFile(std::string path)
 		{
 			this->samples.push_back(temp[i]);
 			this->d_samples.push_back((double)temp[i]);
-			//this->c_samples[i] = (std::complex<double>)(double)temp[i]; // Casting twice, prone to errors
-			// Unhandled exception at 0x763D19B2 in MusicEqualiser.exe: Microsoft C++ exception: std::bad_alloc at memory location 0x00AFED6C. occurred
-		}
-		for (size_t i = 0; i < dim; i++)
-		{
 			this->c_samples[i] = (std::complex<double>)d_samples[i];
-			//this->c_samples[i] = (std::complex<double>)(double)temp[i]; // Casting twice, prone to errors
+			
 			// Unhandled exception at 0x763D19B2 in MusicEqualiser.exe: Microsoft C++ exception: std::bad_alloc at memory location 0x00AFED6C. occurred
 		}
+		
 	}
 	catch (std::bad_alloc)
 	{
-		std::cout << "File already exists or is opened: std::bad_alloc\n";
+		std::cout << "File already is opened or is too big: std::bad_alloc\n";
 		throw std::exception();
 	}
 
@@ -314,6 +310,11 @@ void WavFile::SaveWaveFile(std::string path)
 	{
 		std::cout << "File cannot be saved to this location\n"; // Messages should be displayed in GUI
 	}
+}
+
+void WavFile::ShowProgress(size_t base, size_t current)
+{
+	emit ProgressChanged((current / base) * 100);
 }
 
 WavFile::WavFile()
