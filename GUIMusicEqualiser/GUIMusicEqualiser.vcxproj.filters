@@ -31,7 +31,7 @@
     <ClCompile Include="GUIMusicEqualiser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MusicEqualiser\MusicEqualiser\WavFile.cpp">
+    <ClCompile Include="WavFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -51,7 +51,7 @@
     </QtRcc>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\MusicEqualiser\MusicEqualiser\WavFile.h">
+    <ClInclude Include="WavFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

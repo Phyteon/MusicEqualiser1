@@ -2,8 +2,8 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_GUIMusicEqualiser.h"
-//#include "WavFile.h"
-#include "SFML/Audio.hpp"
+#include "WavFile.h"
+
 
 class GUIMusicEqualiser : public QMainWindow
 {
