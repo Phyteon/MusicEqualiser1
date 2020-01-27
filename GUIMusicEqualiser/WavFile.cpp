@@ -102,6 +102,7 @@ CArray WavFile::FFT(sf::Int16 NoOfSmplInChunk)
 				index++;
 			}
 			index = 0;
+			this->SendProgress(2*smpl_arr_size, j);
 		}
 	}
 	catch (std::bad_alloc)
@@ -135,6 +136,7 @@ CArray WavFile::IFFT(sf::Int16 NoOfSmplInChunk, CArray& fourier) // Only to be p
 			index++;
 		}
 		index = 0;
+		this->SendProgress(2 * fourier.size(), j + fourier.size());
 	}
 	return result;
 }
@@ -170,7 +172,7 @@ void WavFile::LoadWaveFile(std::string path)
 			this->samples.push_back(temp[i]);
 			this->d_samples.push_back((double)temp[i]);
 			this->c_samples[i] = (std::complex<double>)d_samples[i];
-			
+			this->SendProgress(dim, i);
 			// Unhandled exception at 0x763D19B2 in MusicEqualiser.exe: Microsoft C++ exception: std::bad_alloc at memory location 0x00AFED6C. occurred
 		}
 		
@@ -187,11 +189,12 @@ void WavFile::ChangeAmplitude(sf::Int16 coeff)
 {
 	if (coeff == 0)
 	{
-		// Error handle
+		throw std::exception();
 	}
 	for (size_t i = 0; i < this->samples.size(); i++)
 	{
-		samples[i] = samples[i] / coeff;
+		this->samples[i] = this->samples[i] / coeff;
+		this->SendProgress(this->samples.size(), i);
 	}
 	this->buffer.loadFromSamples(&samples[0], samples.size(), 2, 44100);
 }

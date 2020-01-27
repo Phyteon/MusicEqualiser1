@@ -12,6 +12,7 @@ class GUIMusicEqualiser : public QMainWindow
 public:
 	GUIMusicEqualiser(QWidget *parent = Q_NULLPTR);
 	WavFile music_file;
+
 private:
 	Ui::GUIMusicEqualiserClass ui;
 public slots:
