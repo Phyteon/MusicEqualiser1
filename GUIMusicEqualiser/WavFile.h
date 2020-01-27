@@ -33,6 +33,7 @@ public:
 	void RandomWeightMult();
 	void TestFunction();
 	void SaveWaveFile(std::string);
+	void ApplyHannWindow(sf::Int16);
 	WavFile();
 	~WavFile();
 public slots:

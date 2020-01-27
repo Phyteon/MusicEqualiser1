@@ -67,7 +67,7 @@ CArray WavFile::FFT(sf::Int16 NoOfSmplInChunk)
 {
 	if (this->c_samples.size()%NoOfSmplInChunk != 0) // Zero-padding to decrease computation time and increase resolution
 	{
-		// Error in zero padding
+		
 		size_t append = this->c_samples.size() % NoOfSmplInChunk;
 		size_t previous_size = this->c_samples.size();
 		CArray auxilary(this->c_samples);
@@ -313,6 +313,38 @@ void WavFile::SaveWaveFile(std::string path)
 	{
 		std::cout << "File cannot be saved to this location\n"; // Messages should be displayed in GUI
 	}
+}
+
+void WavFile::ApplyHannWindow(sf::Int16 NoOfSmplInChunk)
+{
+	CArray fourier_domain = this->FFT(NoOfSmplInChunk);
+	CArray temp;
+	temp.resize(NoOfSmplInChunk);
+	size_t index = 0;
+	for (size_t j = 0; j < fourier_domain.size() / NoOfSmplInChunk; j++)
+	{
+		for (size_t f = j * NoOfSmplInChunk; f < (j + 1)*NoOfSmplInChunk; f++)
+		{
+			temp[index] = fourier_domain[f];
+			index++;
+		}
+		index = 0;
+		for (size_t k = 0; k < (size_t)NoOfSmplInChunk; k++)
+		{
+			temp[k] *= (Complex)pow(sin(3.14159265358979323846264338328L*k/NoOfSmplInChunk),2);
+		}
+		index = 0;
+		for (size_t l = j * NoOfSmplInChunk; l < (j + 1)*NoOfSmplInChunk; l++)
+		{
+			fourier_domain[l] = temp[index];
+			index++;
+		}
+		index = 0;
+	}
+	CArray time_domain;
+	time_domain = this->IFFT(NoOfSmplInChunk, fourier_domain);
+	std::vector<sf::Int16> new_sample = this->CastOnInt16(time_domain);
+	this->buffer.loadFromSamples(&new_sample[0], new_sample.size(), 2, 44100);
 }
 
 void WavFile::SendProgress(size_t base, size_t current)

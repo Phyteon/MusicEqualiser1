@@ -22,6 +22,7 @@ public slots:
 	void on_apply_upButton_clicked();
 	void on_loadButton_clicked();
 	void on_saveButton_clicked();
-	void ShowProgress(size_t);
+	void on_apply_hannButton_clicked();
+	
 	
 };

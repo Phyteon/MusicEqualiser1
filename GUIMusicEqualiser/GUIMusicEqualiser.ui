@@ -64,7 +64,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>190</y>
+      <y>140</y>
       <width>160</width>
       <height>22</height>
      </rect>
@@ -80,7 +80,7 @@
     <property name="geometry">
      <rect>
       <x>290</x>
-      <y>190</y>
+      <y>140</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -93,7 +93,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>220</y>
+      <y>170</y>
       <width>160</width>
       <height>22</height>
      </rect>
@@ -109,7 +109,7 @@
     <property name="geometry">
      <rect>
       <x>290</x>
-      <y>220</y>
+      <y>170</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -122,10 +122,13 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>250</y>
+      <y>200</y>
       <width>160</width>
       <height>22</height>
      </rect>
+    </property>
+    <property name="minimum">
+     <number>1</number>
     </property>
     <property name="maximum">
      <number>16384</number>
@@ -138,7 +141,7 @@
     <property name="geometry">
      <rect>
       <x>290</x>
-      <y>250</y>
+      <y>200</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -151,7 +154,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>190</y>
+      <y>140</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -164,7 +167,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>220</y>
+      <y>170</y>
       <width>81</width>
       <height>16</height>
      </rect>
@@ -177,7 +180,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>250</y>
+      <y>200</y>
       <width>91</width>
       <height>16</height>
      </rect>
@@ -190,7 +193,7 @@
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>190</y>
+      <y>140</y>
       <width>64</width>
       <height>23</height>
      </rect>
@@ -200,7 +203,7 @@
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>220</y>
+      <y>170</y>
       <width>64</width>
       <height>23</height>
      </rect>
@@ -210,23 +213,10 @@
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>250</y>
+      <y>200</y>
       <width>64</width>
       <height>23</height>
      </rect>
-    </property>
-   </widget>
-   <widget class="QProgressBar" name="progressBar">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>290</y>
-      <width>441</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="value">
-     <number>0</number>
     </property>
    </widget>
    <widget class="QPushButton" name="loadButton">
@@ -255,27 +245,30 @@
      <string>Save</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_6">
+   <widget class="QPushButton" name="apply_hannButton">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>120</y>
-      <width>141</width>
-      <height>21</height>
+      <x>290</x>
+      <y>230</y>
+      <width>75</width>
+      <height>23</height>
      </rect>
     </property>
     <property name="text">
-     <string>Number of samples in chunk</string>
+     <string>Apply</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="spinBox">
+   <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>150</y>
-      <width>42</width>
-      <height>22</height>
+      <x>10</x>
+      <y>230</y>
+      <width>131</width>
+      <height>16</height>
      </rect>
+    </property>
+    <property name="text">
+     <string>Hann window on spectrum</string>
     </property>
    </widget>
   </widget>
